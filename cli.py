@@ -1,4 +1,5 @@
 from qa_engine import StudyAssistant
+from spinner_animation import Spinner
 import os
 
 def clear_screen():
@@ -60,9 +61,13 @@ def main():
                 print("❌ [System] Failed to load PDF.")
         
         else:
-            print(" [Assistant] Thinking...")
-            answer = assistant.ask(user_input) 
-            print(f"\nASSISTANT ❯ {answer}\n")
+            # Treat as a Question
+            # spinner animation added
+            with Spinner():
+                answer = assistant.ask(user_input)
+            
+            # Answer prints where the spinner was
+            print(f"ASSISTANT ❯ {answer}\n")
 
 if __name__ == "__main__":
     main()
