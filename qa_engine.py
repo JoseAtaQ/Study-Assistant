@@ -27,14 +27,12 @@ class StudyAssistant:
         return False
     
     def ask(self, question: str) -> str:
-        if not question.strip():
-            return "Please provide a valid question."
+    # Search for context
         relevant_contexts = self.document_store.search(question, top_k=3)
         combined_context = "\n\n".join(relevant_contexts)
+    
         prompt = create_qa_prompt(question, combined_context)
-
         response = self.ai_interface.chat(prompt)
-        self.chat_history.append((question, response))
         return response
     
 if __name__ == "__main__":

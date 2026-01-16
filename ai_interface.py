@@ -52,8 +52,9 @@ class AIInterface:
             "prompt": prompt,
             "stream": False, 
             "context": self.context,  # <--- Send the previous context back
-            "system": "You are a helpful study assistant. Use the provided lecture notes to answer questions.",
-            "options": {"temperature": 0.7}
+            "system": "You are a helpful study assistant. Provide clear and concise answers based on the context given, "
+                      "and clearly state when you are using your general knowledge instead of the provided context.",
+            "options": {"temperature": 0.5}
         }
         
         try:
