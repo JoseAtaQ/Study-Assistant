@@ -1,23 +1,27 @@
 Study Assistant
+A privacy-focused, local AI CLI tool Works as a chatbot, but it's primarily designed to receive a document (PDF) that serves as the context for subsequent questions. Built using Retrieval-Augmented Generation (RAG), this assistant ensures your data never leaves your machine.
 
-Works as a chatbot, but it's primarily designed to receive a document (PDF) that serves as the context for subsequent questions.
-This project uses Retrieval-Augmented Generation (RAG), which combines 
-document search with AI text generation:
+This project implements a full RAG pipeline from scratch to bridge the gap between static documents and generative AI.
 
-1. Document Processing
-   - PDFs are uploaded, and text is extracted
-   - Text is split into chunks of ~500 words
-   - Each chunk is converted to a vector embedding using [all-MiniLM-L6-v2]
+1. Document Ingestion Pipeline
+Extraction: Uses PyMuPDF to parse and clean text from PDF documents.
 
-2. Storage
-   - Embeddings are stored in [ChromaDB]
-   - Allows semantic search (meaning-based, not keyword-based)
+Semantic Chunking: Instead of arbitrary character limits, text is split into meaningful segments using langchain-experimental's Semantic Chunker, ensuring context is preserved.
 
-3. Question Answering
-   - When you ask a question:
-     a. Your question is converted to an embedding
-     b. Similar chunks are retrieved from the database
-     c. Relevant chunks are sent to Ollama as context
-     d. Ollama generates an answer based only on that context
+Vector Embeddings: Each chunk is transformed into a 384-dimensional vector using the all-MiniLM-L6-v2 transformer model.
 
-**Before using it, you will need Ollama installed and running. The program can also install any agent if you don't have it(make sure you write the exact model and version)**
+2. Intelligent Storage & Retrieval
+Vector Database: Powered by ChromaDB for high-performance similarity searches.
+
+Semantic Search: When a user asks a question, the system performs a mathematical similarity check to retrieve the top-K most relevant document "chunks" rather than just matching keywords.
+
+3. Local Generation (Ollama)
+Privacy-First AI: Leverages Ollama to run Llama 2 (or other GGUF models) locally.
+
+Augmented Prompting: The system constructs a specialized prompt containing the retrieved context, forcing the AI to answer based on your specific notes rather than general training data.
+
+
+Requirements & Setup
+Ollama: Install Ollama and ensure the service is running.
+
+Model: By default, this tool uses llama2. If the model is not found, the program will attempt to pull it automatically on the first run. The program can also directly install any other Ollama agent you like(make sure you write the exact model and version).
