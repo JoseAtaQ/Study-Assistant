@@ -1,0 +1,5 @@
+langchain-huggingface
+langchain-experimental
+langchain-chroma
+pymupdf
+requests
